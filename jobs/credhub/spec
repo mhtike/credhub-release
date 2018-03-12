@@ -55,6 +55,10 @@ consumes:
   type: database
   optional: true
 
+- name: credhub_db
+  type: credhub_db
+  properties: [credhub.data_storage]
+
 properties:
   credhub.port:
     description: "Listening port for the CredHub API"
