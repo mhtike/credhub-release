@@ -6,6 +6,8 @@ releases:
   version: latest
 - name: uaa
   version: latest
+- name: bosh
+  version: latest
 
 stemcells:
 - alias: default
@@ -100,7 +102,7 @@ instance_groups:
           username: admin
           password: ((database-admin))
           host: 127.0.0.1
-          port: 5432
+          port: 3306
           database: credhub
           require_tls: true
           tls_ca: ((database-tls.ca))
@@ -172,7 +174,7 @@ instance_groups:
       uaadb:
         address: 127.0.0.1
         port: 5432
-        db_scheme: postgresql
+        db_scheme: mysql
         # This must currently be false unless the CA of the DB is added to the BOSH CA trust store
         tls_enabled: false
         databases:
