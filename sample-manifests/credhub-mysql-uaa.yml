@@ -6,8 +6,6 @@ releases:
   version: latest
 - name: uaa
   version: latest
-- name: bosh
-  version: latest
 
 stemcells:
 - alias: default
