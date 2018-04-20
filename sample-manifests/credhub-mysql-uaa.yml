@@ -99,7 +99,7 @@ instance_groups:
             verification_key: ((uaa-jwt.public_key))
             ca_certs:
             - ((uaa-tls.ca))
-        data_storage: # TODO are these correct? - assumption: these are all replaced
+        data_storage: # QUESTION are these correct? - assumption: these are all replaced
           type: mysql
           username: admin
           password: ((database-admin))
@@ -117,7 +117,7 @@ instance_groups:
           - name: int
             type: internal
 
-  - name: mysql # TODO are these correct for mysql?
+  - name: mysql # QUESTION are these correct for mysql?
     release: mysql
     properties:
       databases:
