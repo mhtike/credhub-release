@@ -6,7 +6,7 @@ name: sample-credhub-mysql-uaa
 releases:
 - name: credhub
   version: latest
-- name: mysql
+- name: cf-mysql
   version: latest
 - name: uaa
   version: latest
@@ -118,7 +118,7 @@ instance_groups:
             type: internal
 
   - name: mysql # QUESTION are these correct for mysql?
-    release: mysql
+    release: cf-mysql
     properties:
       databases:
         address: 127.0.0.1
