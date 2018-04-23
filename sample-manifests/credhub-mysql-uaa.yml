@@ -73,6 +73,10 @@ variables:
   type: password
 - name: uaa-login
   type: password
+- name: galera-healthcheck
+  type: password
+- name: cluster-health
+  type: password
 
 instance_groups:
 - name: credhub
@@ -138,6 +142,10 @@ instance_groups:
             - name: uaa
               username: uaa
               password: ((uaa-db))
+          galera_healthcheck:
+            db_password: ((galera-healthcheck))
+          cluster_health:
+            password: ((cluster-health))
 
   - name: uaa
     release: uaa
