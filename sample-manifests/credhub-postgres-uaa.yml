@@ -50,7 +50,7 @@ variables:
   type: certificate
   options:
     ca: credhub-ca
-    common_name: ((external-ip-address))
+    common_name: 127.0.0.1
     alternative_names:
     - ((external-ip-address))
     - ((internal-ip-address))
