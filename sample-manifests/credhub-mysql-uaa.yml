@@ -1,5 +1,4 @@
 ## This manifest deploys CredHub, a MySQL database server and UAA on one VM
-## 
 ---
 name: sample-credhub-mysql-uaa
 
@@ -52,6 +51,10 @@ variables:
     - 127.0.0.1
 - name: database-admin
   type: password
+- name: credhub-db
+  type: password
+- name: uaa-db
+  type: password
 - name: uaa-tls
   type: certificate
   options:
@@ -99,10 +102,10 @@ instance_groups:
             verification_key: ((uaa-jwt.public_key))
             ca_certs:
             - ((uaa-tls.ca))
-        data_storage: # QUESTION are these correct? - assumption: these are all replaced
+        data_storage:
           type: mysql
-          username: admin
-          password: ((database-admin))
+          username: credhub
+          password: ((credhub-db))
           host: 127.0.0.1
           port: 3306
           database: credhub
@@ -117,22 +120,24 @@ instance_groups:
           - name: int
             type: internal
 
-  - name: mysql # QUESTION are these correct for mysql?
+  - name: mysql
     release: cf-mysql
     properties:
-      databases:
-        address: 127.0.0.1
-        port: 3306
-        databases:
-        - name: credhub
-        - name: uaa
-        roles:
-        - name: admin
-          password: ((database-admin))
-        tls:
-          ca: ((database-tls.ca))
-          certificate: ((database-tls.certificate))
-          private_key: ((database-tls.private_key))
+      cf_mysql:
+        mysql:
+          admin_username: admin
+          admin_password: ((database-admin))
+          tls:
+            ca_certificate: ((database-tls.ca))
+            server_certificate: ((database-tls.certificate))
+            server_key: ((database-tls.private_key))
+          seeded_databases:
+            - name: credhub
+              username: credhub
+              password: ((credhub-db))
+            - name: uaa
+              username: uaa
+              password: ((uaa-db))
 
   - name: uaa
     release: uaa
@@ -184,8 +189,8 @@ instance_groups:
           name: uaa
         roles:
         - tag: admin
-          name: admin
-          password: ((database-admin))
+          name: uaa
+          password: ((uaa-db))
       login:
         saml:
           serviceProviderCertificate: ((uaa-tls.certificate))
