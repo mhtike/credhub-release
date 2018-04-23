@@ -73,7 +73,9 @@ variables:
   type: password
 - name: uaa-login
   type: password
-- name: galera-healthcheck
+- name: galera-healthcheck-db
+  type: password
+- name: galera-healthcheck-endpoint
   type: password
 - name: cluster-health
   type: password
@@ -84,6 +86,7 @@ instance_groups:
   vm_type: medium
   azs: [z1]
   stemcell: default
+  persistent_disk: 10240
   networks:
   - name: default
     static_ips: [((internal-ip-address))]
@@ -143,7 +146,8 @@ instance_groups:
               username: uaa
               password: ((uaa-db))
           galera_healthcheck:
-            db_password: ((galera-healthcheck))
+            db_password: ((galera-healthcheck-db))
+            endpoint_password: ((galera-healthcheck-endpoint))
           cluster_health:
             password: ((cluster-health))
 
