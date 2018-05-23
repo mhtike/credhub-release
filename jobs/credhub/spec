@@ -181,6 +181,11 @@ properties:
     description: "Application log level. Accepted values are none, error, warn, info or debug"
     default: info
 
+  # Cleaning audit logs 
+  credhub.audit_logs.days_retained:
+    description: "Audit logs will be retained for the number of days specified"
+    default: 30
+
   # JVM configuration
   credhub.max_heap_size:
     description: "Maximum memory heap size in MB for CredHub JVM"
