@@ -14,7 +14,7 @@ releases:
 - name: postgres
   version: 25
 - name: uaa
-  version: latest
+  version: latest 
 
 stemcells:
 - alias: default
@@ -64,7 +64,6 @@ variables:
     common_name: ((external-ip-address))
     alternative_names:
     - ((external-ip-address))
-    - localhost
 - name: uaa-jwt
   type: rsa
   options:
@@ -75,6 +74,11 @@ variables:
   type: password
 - name: uaa-login
   type: password
+- name: credhub-mtls-ca
+  type: certificate
+  options:
+    is_ca: true
+    common_name: credhub-mtls-ca
 
 instance_groups:
 - name: credhub
@@ -96,11 +100,11 @@ instance_groups:
       credhub:
         tls: ((credhub-tls))
         authentication:
-          trusted_cas:
-            - ((credhub-ca.certificate))
+          mutual_tls:
+            trusted_cas:
+              - ((credhub-mtls-ca.certificate))
           uaa:
             url: *uaa-url
-            internal_url: https://localhost:8443
             verification_key: ((uaa-jwt.public_key))
             ca_certs:
             - ((uaa-tls.ca))
