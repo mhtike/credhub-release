@@ -74,8 +74,13 @@ variables:
   type: password
 - name: uaa-login
   type: password
+- name: credhub-mtls-ca
+  type: certificate
+  options:
+    is_ca: true
+    common_name: credhub-mtls-ca
 
-instance_groups: 
+instance_groups:
 - name: credhub
   instances: 1
   vm_type: medium
@@ -96,6 +101,9 @@ instance_groups:
       credhub:
         tls: ((credhub-tls))
         authentication:
+          mutual-tls:
+            trusted-cas:
+              - ((credhub-mtls-ca.certificate))
           uaa:
             url: *uaa-url
             verification_key: ((uaa-jwt.public_key))

@@ -185,5 +185,10 @@
     'config' => "#{credhub_conf_dir}/log4j2.properties"
   }
 
+  # Clean up audit logs
+  application_config['audit_logs'] = {
+    'days_retained' => p('credhub.audit_logs.days_retained')
+  }
+
   application_config.to_yaml
 %>
