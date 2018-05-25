@@ -1,24 +1,42 @@
 <%=
   require 'json'
 
-  config = {
-    username: p("credhub.data_storage.username"),
-    password: p("credhub.data_storage.password"),
-    port: p("credhub.data_storage.port"),
-    database: p("credhub.data_storage.database"),
-    adapter: p("credhub.data_storage.type"),
-  }
-
-  if_p("credhub.data_storage.host") do |host|
-    config[:host] = host
-  end
-
-  if p("credhub.data_storage.require_tls")
-    config[:tls] = {
-      cert: {
-        ca: p("credhub.data_storage.tls_ca"),
+  config = {}
+  using_links = if_link("credhub_db") do |db|
+    config = {
+      username: db.p("credhub.data_storage.username"),
+      password: db.p("credhub.data_storage.password"),
+      port: db.p("credhub.data_storage.port"),
+      database: db.p("credhub.data_storage.database"),
+      adapter: db.p("credhub.data_storage.type"),
+      host: db.p("credhub.data_storage.host"),
+      tls: {
+        cert: {
+          ca: db.p("credhub.data_storage.tls_ca"),
+        }
       }
     }
+  end
+  if !using_links
+    config = {
+      username: p("credhub.data_storage.username"),
+      password: p("credhub.data_storage.password"),
+      port: p("credhub.data_storage.port"),
+      database: p("credhub.data_storage.database"),
+      adapter: p("credhub.data_storage.type"),
+    }
+
+    if_p("credhub.data_storage.host") do |host|
+      config[:host] = host
+    end
+
+    if p("credhub.data_storage.require_tls")
+      config[:tls] = {
+        cert: {
+          ca: p("credhub.data_storage.tls_ca"),
+        }
+      }
+    end
   end
 
   JSON.pretty_generate(config)
