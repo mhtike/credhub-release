@@ -3,7 +3,7 @@
 set -u
 
 SECONDS=0
-EXPIRATION=600
+EXPIRATION=60
 
 health_check() {
   json=`curl -k --silent https://localhost:<%= p("credhub.port") %>/health`

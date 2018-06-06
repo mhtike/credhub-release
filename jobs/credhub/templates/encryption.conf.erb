@@ -10,8 +10,8 @@ if hsm_providers.any?
 %>
 
 Chrystoki2 = {
-  LibUNIX = /var/vcap/packages/lunaclient/lib/libCryptoki2.so;
-  LibUNIX64 = /var/vcap/packages/lunaclient/lib/libCryptoki2_64.so;
+  LibUNIX = /var/vcap/packages/lunaclient/libs/32/libCryptoki2.so;
+  LibUNIX64 = /var/vcap/packages/lunaclient/libs/64/libCryptoki2.so;
 }
 
 Luna = {
@@ -48,12 +48,4 @@ LunaSA Client = {
 <% end %>
 }
 
-HAConfiguration = {
-   reconnAtt = -1;
-   AutoReconnectInterval = 60;
-   haLogPath = /var/vcap/sys/log/credhub;
-   logLen = 262144;
-   haLogStatus = enabled;
-   HAOnly = 1;
-}
 <% end %>
