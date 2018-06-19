@@ -1,0 +1,4 @@
+security:
+  authorization:
+    acls:
+      enabled: true

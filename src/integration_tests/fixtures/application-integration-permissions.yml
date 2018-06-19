@@ -1,0 +1,13 @@
+security:
+  authorization:
+    permissions:
+    - path: /cred
+      actors:
+      - uaa-user:0d4c0d70-e799-40d5-9b94-7fd5087aafa3
+      - uaa-client:credhub_client
+      operations:
+      - read
+      - write
+      - delete
+      - read_acl
+      - write_acl
