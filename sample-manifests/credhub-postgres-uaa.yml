@@ -105,7 +105,7 @@ instance_groups:
             trusted-cas:
               - ((credhub-mtls-ca.certificate))
           uaa:
-            url: *uaa-url
+            url: &uaa-url https://((external-ip-address)):8443
             verification_key: ((uaa-jwt.public_key))
             ca_certs:
             - ((uaa-tls.ca)) 
@@ -148,7 +148,7 @@ instance_groups:
     release: uaa
     properties:
       uaa:
-        url: &uaa-url https://((external-ip-address)):8443 
+        url: *uaa-url
         scim:
           users:
           - name: admin
