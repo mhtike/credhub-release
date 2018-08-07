@@ -229,6 +229,15 @@ properties:
         - read_acl
         - write_acl
 
+  credhub.authorization.perm.enabled:
+    description: "Enable CredHub to use the PERM service for it's authorization"
+    default: false
+  credhub.authorization.perm.url:
+    description: "PERM's endpoint"
+    example: "https//<perm-host>:<perm-port>"
+  credhub.authorization.perm.ca_certs:
+    description: "List of CAs trusted when making TLS connections to PERM"
+
   # Logging
   credhub.log_level:
     description: "Application log level. Accepted values are none, error, warn, info or debug"
