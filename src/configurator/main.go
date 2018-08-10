@@ -45,9 +45,9 @@ func main() {
 	credhubConfig.Security.Authorization.ACLs.Enabled = boshConfig.Authorization.ACLs.Enabled
 
 	for _, permission := range boshConfig.Authorization.Permissions {
-		credhubPermission:= config.Permission{
-			Path: permission.Path,
-			Actors: permission.Actors,
+		credhubPermission := config.Permission{
+			Path:       permission.Path,
+			Actors:     permission.Actors,
 			Operations: permission.Operations,
 		}
 		credhubConfig.Security.Authorization.Permissions = append(credhubConfig.Security.Authorization.Permissions, credhubPermission)
@@ -167,6 +167,25 @@ func main() {
 	default:
 		fmt.Fprintln(os.Stderr, `credhub.data_storage.type must be set to "mysql", "postgres", or "in-memory".`)
 		os.Exit(1)
+	}
+
+	if boshConfig.Authorization.Perm.Enabled == true {
+		credhubConfig.Security.Authorization.Perm.Enabled = true
+	} else {
+		credhubConfig.Security.Authorization.Perm.Enabled = false
+		//TODO error?
+	}
+	if boshConfig.Authorization.Perm.Usgit rl == "" {
+		//TODO check error handling
+		fmt.Fprintln(os.Stderr, `A valid URL must be provided to connet to PERM.`)
+	} else {
+		credhubConfig.Security.Authorization.Perm.Url = boshConfig.Authorization.Perm.Url
+	}
+	if boshConfig.Authorization.Perm.CaCerts == "" {
+		//TODO check error handling
+		fmt.Fprintln(os.Stderr, `A valid CA Cert must be provided to connet to PERM.`)
+	} else {
+		credhubConfig.Security.Authorization.Perm.CaCerts = boshConfig.Authorization.Perm.CaCerts
 	}
 
 	byteArray, err := yaml.Marshal(credhubConfig)

@@ -47,6 +47,11 @@ type BoshConfig struct {
 		}
 	}
 	Authorization struct {
+		Perm struct {
+			Enabled bool
+			Url     string
+			CaCerts string `json:"ca_certs"`
+		}
 		ACLs struct {
 			Enabled bool
 		} `json:"acls"`
@@ -69,15 +74,15 @@ type BoshConfig struct {
 }
 
 type BoshPermission struct {
-	Path string `json:"path"`
-	Actors []string `json:"actors"`
+	Path       string   `json:"path"`
+	Actors     []string `json:"actors"`
 	Operations []string `json:"operations"`
 }
 
 type BoshKey struct {
-	ProviderName       string `json:"provider_name"`
-	Active             bool
-	KeyProperties      KeyProperties `json:"key_properties"`
+	ProviderName  string `json:"provider_name"`
+	Active        bool
+	KeyProperties KeyProperties `json:"key_properties"`
 }
 
 type KeyProperties struct {
@@ -105,6 +110,11 @@ type CredhubConfig struct {
 				Enabled bool
 			}
 			Permissions []Permission
+			Perm        struct {
+				Enabled bool
+				Url     string
+				CaCerts string
+			}
 		}
 	}
 	AuthServer AuthServerConfig `yaml:"auth-server"`
@@ -115,7 +125,7 @@ type CredhubConfig struct {
 			}
 		}
 		Datasource SpringDatasource
-		Flyway struct {
+		Flyway     struct {
 			Locations []string
 			Enabled   bool
 		}
@@ -131,8 +141,8 @@ type CredhubConfig struct {
 }
 
 type Permission struct {
-	Path string 		`yaml:"path,omitempty"`
-	Actors []string 	`yaml:"actors,omitempty"`
+	Path       string   `yaml:"path,omitempty"`
+	Actors     []string `yaml:"actors,omitempty"`
 	Operations []string `yaml:"operations,omitempty"`
 }
 

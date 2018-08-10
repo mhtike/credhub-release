@@ -220,8 +220,8 @@ var _ = Describe("Configurator", func() {
 
 			cli.BoshConfig.Encryption.Keys = []config.BoshKey{
 				{
-					ProviderName:       "foo",
-					KeyProperties:      keyProperties,
+					ProviderName:  "foo",
+					KeyProperties: keyProperties,
 				},
 			}
 
@@ -384,8 +384,8 @@ var _ = Describe("Configurator", func() {
 
 			cli.BoshConfig.Encryption.Keys = []config.BoshKey{
 				{
-					ProviderName:       "foo",
-					KeyProperties:      keyProperties,
+					ProviderName:  "foo",
+					KeyProperties: keyProperties,
 				},
 			}
 
@@ -419,8 +419,8 @@ var _ = Describe("Configurator", func() {
 
 			cli.BoshConfig.Encryption.Keys = []config.BoshKey{
 				{
-					ProviderName:       "foo",
-					KeyProperties:      keyProperties,
+					ProviderName:  "foo",
+					KeyProperties: keyProperties,
 				},
 			}
 
@@ -465,9 +465,8 @@ var _ = Describe("Configurator", func() {
 
 			cli.BoshConfig.Encryption.Keys = []config.BoshKey{
 				{
-					ProviderName:       "foo",
-					KeyProperties:      keyProperties,
-
+					ProviderName:  "foo",
+					KeyProperties: keyProperties,
 				},
 			}
 
@@ -493,8 +492,8 @@ var _ = Describe("Configurator", func() {
 			cli.BoshConfig.Authorization.Permissions = []config.BoshPermission{
 				{
 					Path:       "foo",
-					Actors: []string{"bar"},
-					Operations:  []string{"baz"},
+					Actors:     []string{"bar"},
+					Operations: []string{"baz"},
 				},
 			}
 
@@ -515,10 +514,9 @@ var _ = Describe("Configurator", func() {
 			cli.BoshConfig.Authorization.Permissions = []config.BoshPermission{
 				{
 					Path:       "foo",
-					Actors: []string{"bar", "bar2"},
-					Operations:  []string{"baz"},
+					Actors:     []string{"bar", "bar2"},
+					Operations: []string{"baz"},
 				},
-
 			}
 
 			result, err := runCli(cli, "")
@@ -537,16 +535,15 @@ var _ = Describe("Configurator", func() {
 			cli.BoshConfig.Authorization.Permissions = []config.BoshPermission{
 				{
 					Path:       "foo",
-					Actors: []string{"bar"},
-					Operations:  []string{"baz"},
+					Actors:     []string{"bar"},
+					Operations: []string{"baz"},
 				},
 
 				{
 					Path:       "foo2",
-					Actors: []string{"bar2", "bar3"},
-					Operations:  []string{"baz2"},
+					Actors:     []string{"bar2", "bar3"},
+					Operations: []string{"baz2"},
 				},
-
 			}
 
 			result, err := runCli(cli, "")
@@ -566,6 +563,20 @@ var _ = Describe("Configurator", func() {
 
 			Expect(result.Security.Authorization.Permissions).To(Equal([]config.Permission{expectedPermission1, expectedPermission2}))
 		})
+
+		It("adds perm info to application.yml", func() {
+			cli.BoshConfig.Authorization.Perm.Enabled = true
+			cli.BoshConfig.Authorization.Perm.Url = "someUrl"
+			cli.BoshConfig.Authorization.Perm.CaCerts = "someCert"
+
+			result, err := runCli(cli, "")
+			Expect(err).NotTo(HaveOccurred())
+
+			Expect(result.Security.Authorization.Perm.Enabled).To(Equal(true))
+			Expect(result.Security.Authorization.Perm.Url).To(Equal("someUrl"))
+			Expect(result.Security.Authorization.Perm.CaCerts).To(Equal("someCert"))
+		})
+
 	})
 
 })
