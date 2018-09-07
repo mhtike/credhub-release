@@ -104,6 +104,15 @@
           connection_url << '&enabledSslProtocolSuites=TLSv1,TLSv1.1,TLSv1.2'
           connection_url << '&trustCertificateKeyStorePassword=KEY_STORE_PASSWORD_PLACEHOLDER'
           connection_url << "&trustCertificateKeyStoreUrl=#{credhub_conf_dir}/db_trust_store.jks"
+          if_p('credhub.data_storage.hostname_verification.enabled') do |verification_enabled|
+            if !is_boolean(verification_enabled)
+              raise 'credhub.data_storage.hostname_verification.enabled must be set to `true` or `false`.'
+            end
+
+            if !verification_enabled
+              connection_url << "&disableSslHostnameVerification=true"
+            end
+          end
         elsif datastorage_type == 'postgres'
           connection_url << '&ssl=true' if require_tls
         end
