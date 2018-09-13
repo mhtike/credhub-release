@@ -1,0 +1,7 @@
+- type: replace
+  path: /instance_groups/name=credhub/jobs/-
+  value:
+    name: ca_certs
+    release: os-conf
+    properties:
+      certs: ((database-tls.certificate))
