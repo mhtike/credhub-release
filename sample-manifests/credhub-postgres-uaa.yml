@@ -19,7 +19,7 @@ releases:
   version: latest
 - name: os-conf
   version: latest
-- name: kubernetes-luna-kms-plugin
+- name: luna-hsm-provider
   version: latest
 
 stemcells:
@@ -109,10 +109,10 @@ instance_groups:
   - name: public
     static_ips: [((external-ip-address))]
   jobs:
-  - name: luna-kms-plugin
-    release: kubernetes-luna-kms-plugin
+  - name: luna-hsm-provider
+    release: luna-hsm-provider
     properties:
-      luna-kms-plugin:
+      luna-hsm-provider:
         luna:
           partition: credhub-ha
           password: m6p4ObXf$NFG
@@ -381,17 +381,17 @@ instance_groups:
             key_properties:
               encryption_password: ((credhub-encryption-password))
             active: false
-          - provider_name: luna-kms-plugin
+          - provider_name: luna-hsm-provider
             key_properties:
               encryption_key_name: some-key-name-1
             active: true
           providers:
           - name: int
             type: internal
-          - name: luna-kms-plugin
+          - name: luna-hsm-provider
             type: kms-plugin
             connection_properties:
-              endpoint: /var/vcap/sys/run/luna-kms-plugin/luna-kms-plugin.sock
+              endpoint: /var/vcap/sys/run/luna-hsm-provider/luna-hsm-provider.sock
 
   - name: postgres
     release: postgres
