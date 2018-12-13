@@ -34,7 +34,7 @@ pushd ${BUILD_DIR}/credhub
 popd
 
 # Clean build data
-rm -rf ${BUILD_DIR}/openjdk_1.8.0
+rm -rf ${BUILD_DIR}/openjdk-11
 if [ `uname` = "Linux" ]; then
   rm -rf ${BUILD_DIR}/java
 fi
