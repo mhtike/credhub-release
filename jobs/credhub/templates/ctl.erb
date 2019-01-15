@@ -23,10 +23,12 @@ if p('credhub.data_storage.require_tls') || p('credhub.authentication.uaa.enable
 end
 
 if using_hsm
-  java_command += "-cp '/var/vcap/packages/lunaclient/jsp/lib/LunaProvider.jar;/var/vcap/packages/lunaclient/jsp/lib/libLunaAPI.so' "
+  java_command += "-cp '/var/vcap/packages/credhub/credhub.jar:/var/vcap/packages/lunaclient/jsp/lib/LunaProvider.jar:/var/vcap/packages/lunaclient/jsp/lib/libLunaAPI.so' "
+else
+  java_command += "-cp '/var/vcap/packages/credhub/credhub.jar' "
 end
 
-java_command += "-ea -jar *.jar --management.server.port=" + p('credhub.health_endpoint_port').to_s
+java_command += "-ea org.springframework.boot.loader.JarLauncher --management.server.port=" + p('credhub.health_endpoint_port').to_s
 %>
 
 <% if p("credhub.authentication.uaa.enabled") %>

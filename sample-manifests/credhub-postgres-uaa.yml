@@ -48,7 +48,6 @@ variables:
     common_name: ((external-ip-address))
     alternative_names:
     - ((external-ip-address))
-    - ((internal-ip-address))
     - 127.0.0.1
 - name: database-tls
   type: certificate
@@ -57,7 +56,6 @@ variables:
     common_name: ((external-ip-address))
     alternative_names:
     - ((external-ip-address))
-    - ((internal-ip-address))
     - 127.0.0.1
     - localhost
 - name: database-admin
@@ -102,7 +100,6 @@ instance_groups:
   stemcell: default
   networks:
   - name: default
-    static_ips: [((internal-ip-address))]
     default: [dns, gateway]
   - name: public
     static_ips: [((external-ip-address))]

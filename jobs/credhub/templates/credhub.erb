@@ -1,5 +1,6 @@
 #!/bin/bash
 
+<% using_hsm = p('credhub.encryption.providers').any? { |provider| provider['type'] == "hsm" } %>
 trust_store_password=TRUST_STORE_PASSWORD_PLACEHOLDER
 <%
 java_command = "\tjava \\
@@ -18,7 +19,13 @@ if p('credhub.data_storage.require_tls') || p('credhub.authentication.uaa.enable
 \t\t-Djavax.net.ssl.trustStorePassword=${trust_store_password} \\\n"
 end
 
-java_command += "\t\t-ea -jar *.jar --management.server.port=" + p('credhub.health_endpoint_port').to_s
+if using_hsm
+  java_command += "-cp '/var/vcap/packages/credhub/credhub.jar:/var/vcap/packages/lunaclient/jsp/lib/LunaProvider.jar:/var/vcap/packages/lunaclient/jsp/lib/libLunaAPI.so' "
+else
+  java_command += "-cp '/var/vcap/packages/credhub/credhub.jar' "
+end
+
+java_command += "-ea org.springframework.boot.loader.JarLauncher --management.server.port=" + p('credhub.health_endpoint_port').to_s
 %>
 
 export PATH=$JAVA_HOME/bin:$PATH
