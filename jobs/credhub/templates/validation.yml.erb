@@ -35,9 +35,9 @@
 
   hsm_providers = encryption_providers.select{|p| p['type'] == 'hsm'}
 
-  if hsm_providers.size > 1
-    raise 'More than one hsm provider is not supported. Please update your configuration to proceed.'
-  end
+  # if hsm_providers.size > 1
+  #   raise 'More than one hsm provider is not supported. Please update your configuration to proceed.'
+  # end
 
   kms_plugin_providers = encryption_providers.select{|p| p['type'] == 'kms-plugin'}
 

@@ -102,10 +102,10 @@ instance_groups:
   stemcell: default
   networks:
   - name: default
-    static_ips: [((internal-ip-address))]
     default: [dns, gateway]
-  - name: public
-    static_ips: [((external-ip-address))]
+    static_ips: [((internal-ip-address))]
+#  - name: public
+#    static_ips: [((external-ip-address))]
   jobs:
   - name: credhub
     release: credhub
